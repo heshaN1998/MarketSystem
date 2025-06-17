@@ -62,7 +62,7 @@ return statement.executeUpdate() > 0 ? "sucess":"fail";
     public itemDto getItem(String itemCode) throws Exception{
 
 Connection connection=DBConnection.getInstance().getConnection();
-String sql = "SELECT * FROM Item WHERE ItemCode=?";
+String sql = "SELECT * FROM Item WHERE itemCode=?";
 PreparedStatement statement=connection.prepareStatement(sql);
 
 ResultSet rst = statement.executeQuery();
@@ -100,6 +100,25 @@ itemDtos.add(itemDto);
 
 return itemDtos;
      }
+     
+     public itemDto searchItem(String code) throws Exception{
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM Item WHERE  Itemcode = ? ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        
+        statement.setString(1,code);
+        
+        ResultSet rst = statement.executeQuery();
+        
+        if(rst.next()){
+            return new itemDto(rst.getString("ItemCode"),
+                    rst.getString("Description"),
+                    rst.getString("PackSize"),
+                    rst.getDouble("UnitPrize"), 
+                    rst.getInt("QtyOnHand"));
+        }
+        return null;
+    }
      
     
     

@@ -6,6 +6,7 @@ package edu.ijse.mvc;
 
 import edu.ijse.mvc.db.DBConnection;
 import edu.ijse.mvc.view.itemForm;
+import edu.ijse.mvc.view.OrderForm;
 
 
 /**
@@ -20,7 +21,8 @@ public class Main {
     public static void main(String[] args) {
         
         // TODO code application logic here
-        new itemForm().setVisible(true);
+        //new itemForm().setVisible(true);
+        new OrderForm().setVisible(true);
     }
     
 }

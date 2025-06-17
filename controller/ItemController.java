@@ -32,6 +32,9 @@ import java.util.ArrayList;
     public ArrayList<itemDto> getAllItem() throws Exception {
   return itemModel.getAll();
   } 
+     public itemDto searchItem(String itemId) throws Exception{
+        return itemModel.searchItem(itemId);
+    }
      
     }
     

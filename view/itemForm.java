@@ -37,7 +37,7 @@ public class itemForm extends javax.swing.JFrame {
     private void initComponents() {
 
         lblHeader = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblCode = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
         lblDesc = new javax.swing.JLabel();
         txtDesc = new javax.swing.JTextField();
@@ -59,8 +59,8 @@ public class itemForm extends javax.swing.JFrame {
         lblHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeader.setText("Manage Item");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Item Code");
+        lblCode.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCode.setText("Item Code");
 
         txtCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,7 +154,7 @@ public class itemForm extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtDesc))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCode, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -188,7 +188,7 @@ public class itemForm extends javax.swing.JFrame {
                 .addComponent(lblHeader)
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblCode)
                     .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -289,8 +289,8 @@ public class itemForm extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCode;
     private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblPack;
@@ -313,19 +313,20 @@ txtQoh.setText("");
 }
 private void searchItem(){
     
-String itemCode=(String) tblitem.getValueAt(tblitem.getSelectedRow(),0);
+String code=(String) tblitem.getValueAt(tblitem.getSelectedRow(),1);
 
     try {
-        itemDto itemDto=itemController.getItem(itemCode);
-        System.out.println(itemDto);
-        txtCode.setText(itemDto.getCode());
-        txtDesc.setText(itemDto.getDesc());
-        txtPack.setText(itemDto.getPack());
-        txtUnitPrize.setText(Double.toHexString(itemDto.getUnitPrize()));
-        txtQoh.setText(Integer.toString(itemDto.getQoh()));
+        itemDto iitemDto= itemController.searchItem(code);
+        
+        txtCode.setText(iitemDto.getCode());
+        txtDesc.setText(iitemDto.getDesc());
+        txtPack.setText(iitemDto.getPack());
+        txtUnitPrize.setText(Double.toHexString(iitemDto.getUnitPrize()));
+        txtQoh.setText(Integer.toString(iitemDto.getQoh()));
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
     }
+    
 }
 
 
@@ -394,6 +395,7 @@ return false;
 }
 };
 tblitem.setModel(dtm);
+
     try {
         ArrayList<itemDto> itemDtos=itemController.getAllItem();
    for(itemDto itemDto :itemDtos){
