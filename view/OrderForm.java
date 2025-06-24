@@ -6,12 +6,17 @@ package edu.ijse.mvc.view;
 
 import edu.ijse.mvc.controller.CustomerController;
 import edu.ijse.mvc.controller.ItemController;
+import edu.ijse.mvc.controller.OrderController;
 import edu.ijse.mvc.dto.CustomerDto;
 import edu.ijse.mvc.dto.itemDto;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import edu.ijse.mvc.dto.OrderDetailDto;
+import edu.ijse.mvc.dto.OrderDto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 
  
 
@@ -28,7 +33,8 @@ public class OrderForm extends javax.swing.JFrame {
     
 
     private CustomerController customerController=new CustomerController();
-    private ItemController itemController=new ItemController();
+    private ItemController itemController = new ItemController();
+    private OrderController orderController = new OrderController(); 
     
       public ArrayList<OrderDetailDto> orderDetailDto = new ArrayList<>();
     /**
@@ -173,6 +179,11 @@ public class OrderForm extends javax.swing.JFrame {
 
         btnPlaceOrder.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPlaceOrder.setText("Place Order");
+        btnPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlaceOrderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -311,6 +322,10 @@ public class OrderForm extends javax.swing.JFrame {
     addToCart();        // TODO add your handling code here:
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
+          placeOrder();
+    }//GEN-LAST:event_btnPlaceOrderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -423,7 +438,7 @@ orderDetailDto.setItemCode(txtItemCode.getText());
     dtm.addRow(rowData);
     
     clearItem();
-    s
+    
     }
     
     private void clearItem(){
@@ -433,5 +448,23 @@ orderDetailDto.setItemCode(txtItemCode.getText());
     lblItemData.setText("");
     
     }
+    
+    private void placeOrder(){
+        OrderDto orderDto=new OrderDto();
+        orderDto.setCustId(txtCustId.getText());
+        orderDto.setOrderId(txtId.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String curDateStr = sdf.format(new Date());
+        orderDto.setOrderData(curDateStr);
+        
+        
+        try {
+            String resp = orderController.placeOrder(orderDto, orderDetailDto);
+            JOptionPane.showMessageDialog(this, resp);
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
 }
+
 
